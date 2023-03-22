@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2023/2/7 15:03
 # @Author  : WuBingTai
-import asyncio
 import os
 
-import requests
 import uiautomator2 as u2
 from pyppeteer import connect
 
@@ -37,7 +35,6 @@ def get_driver(device_name):
 def get_web_driver(d, driver_ip):
     """
     获取设备当前web driver
-    is_clear:清除数据
     :return:wd
     """
     try:
@@ -57,7 +54,12 @@ async def get_browser(devices, port=9516):
     # ws = requests.get(f"http://localhost:{port}/json/version").json()['webSocketDebuggerUrl']
     ws = f"ws://localhost:{port}/devtools/browser"
     logger.debug(ws)
-    browser = await connect({'browserWSEndpoint': ws})
+    browser = await connect(
+        {
+            'browserWSEndpoint': ws,
+            'defaultViewport': None
+        }
+    )
     return browser
 
 
